@@ -1,0 +1,7 @@
+1. Flash 10 names and faces for 5 seconds each
+    a. Get 100 random face images
+    b. Get a database of names
+2. Flash each name in a random order & ask you to spell it correctly, give instant yes or no feedback? or give feedback at the end?
+3. Tell you your score
+
+-- Part 2
