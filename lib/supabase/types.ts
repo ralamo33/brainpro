@@ -7,10 +7,30 @@ export type Json =
   | Json[]
 
 export type Database = {
-  // Allows to automatically instantiate createClient with right options
-  // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
-  __InternalSupabase: {
-    PostgrestVersion: "14.1"
+  graphql_public: {
+    Tables: {
+      [_ in never]: never
+    }
+    Views: {
+      [_ in never]: never
+    }
+    Functions: {
+      graphql: {
+        Args: {
+          extensions?: Json
+          operationName?: string
+          query?: string
+          variables?: Json
+        }
+        Returns: Json
+      }
+    }
+    Enums: {
+      [_ in never]: never
+    }
+    CompositeTypes: {
+      [_ in never]: never
+    }
   }
   public: {
     Tables: {
@@ -32,6 +52,69 @@ export type Database = {
           file_path?: string
           id?: string
           name?: string
+        }
+        Relationships: []
+      }
+      game_answer: {
+        Row: {
+          answer: string
+          created_at: string
+          face_id: string
+          id: string
+          is_correct: boolean
+          session_id: string
+        }
+        Insert: {
+          answer: string
+          created_at?: string
+          face_id: string
+          id?: string
+          is_correct: boolean
+          session_id: string
+        }
+        Update: {
+          answer?: string
+          created_at?: string
+          face_id?: string
+          id?: string
+          is_correct?: boolean
+          session_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "game_answer_face_id_fkey"
+            columns: ["face_id"]
+            isOneToOne: false
+            referencedRelation: "face"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "game_answer_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "game_session"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      game_session: {
+        Row: {
+          completed_at: string | null
+          created_at: string
+          face_ids: string[]
+          id: string
+        }
+        Insert: {
+          completed_at?: string | null
+          created_at?: string
+          face_ids: string[]
+          id?: string
+        }
+        Update: {
+          completed_at?: string | null
+          created_at?: string
+          face_ids?: string[]
+          id?: string
         }
         Relationships: []
       }
@@ -169,7 +252,11 @@ export type CompositeTypes<
     : never
 
 export const Constants = {
+  graphql_public: {
+    Enums: {},
+  },
   public: {
     Enums: {},
   },
 } as const
+

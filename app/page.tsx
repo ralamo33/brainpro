@@ -1,26 +1,13 @@
-import { createServerSupabase } from "@/lib/supabase/server";
-import { Game } from "./game";
-import { getBucket } from "@/lib/storage/storage";
-import { isErr, unwrap } from "@/lib/result/result";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
-export default async function NamePage() {
-    const FACES = 10;
-    const MILISECONDS_PER_FACE = 5000;
-
-    const supabase = await createServerSupabase();
-    const { data: faces } = await supabase
-        .from("face")
-        .select("*")
-        .limit(FACES);
-    const bucket = await getBucket();
-
-    if (!faces || isErr(bucket)) {
-        return <p>Something went wrong!</p>;
-    }
-
+export default function HomePage() {
     return (
-        <div>
-            <Game faces={faces} milisecondsPerFace={MILISECONDS_PER_FACE} />
+        <div className="flex flex-col items-center gap-6 mt-16">
+            <h1 className="text-3xl font-bold">Welcome to Face Game!</h1>
+            <Link href="/game/study">
+                <Button>Start</Button>
+            </Link>
         </div>
     );
 }

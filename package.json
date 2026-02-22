@@ -9,7 +9,7 @@
         "start": "next start",
         "lint": "biome check",
         "format": "biome format --write",
-        "types": "pnpx supabase gen types typescript --project-id \"jsdhudjqckfeozjpgrsw\" --schema public > lib/supabase/types.ts"
+        "types": "pnpx supabase gen types typescript --local > lib/supabase/types.ts"
     },
     "dependencies": {
         "@supabase/ssr": "^0.8.0",

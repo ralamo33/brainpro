@@ -9,3 +9,8 @@ For functions with error cases use the effect library. There is additional docum
 Emphasize simplicity. Less code is better. When you need to run the server use server functions, NEVER create externally accessible api routes
 
 Uses a custom error handling library as defined in lib/result.ts to get around serialization requirements for server functions
+
+If you write new migration files run the following commands:
+* `pnpx supabase db reset` apply new migrations to the local database
+* `pnpm run types` generate the database types
+* if either command fails run `pnpx supabase start`
