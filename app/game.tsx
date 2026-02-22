@@ -3,6 +3,8 @@
 import { Tables } from "@/database/types";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { GameFace } from "./gameFace";
+import { Button } from "@/components/ui/button";
 
 type Props = {
     faces: Tables<"face">[];
@@ -11,11 +13,9 @@ type Props = {
 
 export function Game({ faces, milisecondsPerFace }: Props) {
     const [round, setRound] = useState(0);
-    const face = faces[round];
-    const bucketName = "brain_pro_faces";
 
     useEffect(() => {
-        if (round >= faces.length - 1) {
+        if (round >= faces.length) {
             return;
         }
 
@@ -23,19 +23,30 @@ export function Game({ faces, milisecondsPerFace }: Props) {
         return () => clearTimeout(newId);
     }, [round, milisecondsPerFace, faces]);
 
-    const advance = () => setRound((r) => Math.min(r + 1, faces.length - 1));
+    if (round >= faces.length) {
+        return (
+            <div>
+                <Button>Continue</Button>
+            </div>
+        );
+    }
 
+    const face = faces[round];
     return (
         <div>
-            <Answer
-                imageUrl={`https://storage.googleapis.com/${bucketName}/${face.file_path}`}
-                onSubmit={advance}
-            />
+            <GameFace filePath={face.file_path} />
+            <p className="text-xl">{face.name}</p>
         </div>
     );
 }
 
-function Answer({ imageUrl, onSubmit }: { imageUrl: string; onSubmit: () => void }) {
+function Answer({
+    imageUrl,
+    onSubmit,
+}: {
+    imageUrl: string;
+    onSubmit: () => void;
+}) {
     const [value, setValue] = useState("");
 
     const handleSubmit = () => {
@@ -53,7 +64,11 @@ function Answer({ imageUrl, onSubmit }: { imageUrl: string; onSubmit: () => void
                 placeholder="Type the name..."
                 className="border border-gray-300 rounded px-3 py-2 text-center"
             />
-            <button type="button" onClick={handleSubmit} className="px-4 py-2 bg-blue-600 text-white rounded">
+            <button
+                type="button"
+                onClick={handleSubmit}
+                className="px-4 py-2 bg-blue-600 text-white rounded"
+            >
                 Submit
             </button>
         </div>
