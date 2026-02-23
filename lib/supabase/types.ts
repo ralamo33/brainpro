@@ -103,18 +103,42 @@ export type Database = {
           created_at: string
           face_ids: string[]
           id: string
+          user_id: string | null
         }
         Insert: {
           completed_at?: string | null
           created_at?: string
           face_ids: string[]
           id?: string
+          user_id?: string | null
         }
         Update: {
           completed_at?: string | null
           created_at?: string
           face_ids?: string[]
           id?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          full_name: string | null
+          id: string
+          updated_at: string | null
+          username: string | null
+        }
+        Insert: {
+          full_name?: string | null
+          id: string
+          updated_at?: string | null
+          username?: string | null
+        }
+        Update: {
+          full_name?: string | null
+          id?: string
+          updated_at?: string | null
+          username?: string | null
         }
         Relationships: []
       }
@@ -137,6 +161,31 @@ export type Database = {
           isOneToOne: false
           isSetofReturn: true
         }
+      }
+      get_unseen_random_faces: {
+        Args: { count: number }
+        Returns: {
+          created_at: string
+          file_path: string
+          id: string
+          name: string
+        }[]
+        SetofOptions: {
+          from: "*"
+          to: "face"
+          isOneToOne: false
+          isSetofReturn: true
+        }
+      }
+      get_user_session_stats: {
+        Args: never
+        Returns: {
+          correct: number
+          created_at: string
+          face_count: number
+          id: string
+          total: number
+        }[]
       }
     }
     Enums: {

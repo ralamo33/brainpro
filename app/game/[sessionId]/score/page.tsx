@@ -73,9 +73,14 @@ export default async function ScorePage({ params }: Props) {
                     </div>
                 ))}
             </div>
-            <Link href="/game/study">
-                <Button>Play Again</Button>
-            </Link>
+            <div className="flex gap-3">
+                <Link href="/game/study">
+                    <Button>Play Again</Button>
+                </Link>
+                <Link href="/analysis">
+                    <Button variant="outline">View Progress</Button>
+                </Link>
+            </div>
         </div>
     );
 }

@@ -15,4 +15,9 @@ If you write new migration files run the following commands:
 * `pnpm run types` generate the database types
 * if either command fails run `pnpx supabase start`
 
-Uses shadcdn as a headless ui component library, if you are missing a basic component element, try adding through the shadcdn cli.
+Uses shadcdn as a headless ui component library, if you are missing a basic component element, do the following:
+1. list available shadcn libraries through `pnpx shadcn@latest list @shadcn`
+2. add a component if available through `pnpx shadcn@latest add ${addCommandArgument}`
+3. if component is not available, then create your own within component/ui
+
+The purpose is to improve people's memory of faces, and to track their progress over time.
