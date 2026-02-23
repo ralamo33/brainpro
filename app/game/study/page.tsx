@@ -6,10 +6,7 @@ const MILLISECONDS_PER_FACE = 5000;
 
 export default async function StudyPage() {
     const supabase = await createServerSupabase();
-    const { data: faces } = await supabase
-        .from("face")
-        .select("*")
-        .limit(FACES);
+    const { data: faces } = await supabase.rpc("get_random_faces", { count: FACES });
 
     if (!faces || faces.length === 0) {
         return <p>Something went wrong loading faces.</p>;

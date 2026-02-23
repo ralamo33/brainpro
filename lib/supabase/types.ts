@@ -123,7 +123,21 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      get_random_faces: {
+        Args: { count: number }
+        Returns: {
+          created_at: string
+          file_path: string
+          id: string
+          name: string
+        }[]
+        SetofOptions: {
+          from: "*"
+          to: "face"
+          isOneToOne: false
+          isSetofReturn: true
+        }
+      }
     }
     Enums: {
       [_ in never]: never

@@ -14,3 +14,5 @@ If you write new migration files run the following commands:
 * `pnpx supabase db reset` apply new migrations to the local database
 * `pnpm run types` generate the database types
 * if either command fails run `pnpx supabase start`
+
+Uses shadcdn as a headless ui component library, if you are missing a basic component element, try adding through the shadcdn cli.
