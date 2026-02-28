@@ -17,10 +17,19 @@ async function getFileNames() {
     return files.map((f) => f.name);
 }
 
+function getShortName() {
+    let fullName = faker.person.firstName() + " " + faker.person.lastName();
+    while (fullName.split(" ").length !== 2 || fullName.includes("-")) {
+        console.log("anem was", fullName);
+        fullName = faker.person.firstName() + " " + faker.person.lastName();
+    }
+    return fullName.replaceAll("'", "''");
+}
+
 function mapToInsertStatement(fileNames: string[]) {
-    const start = `INSERT INTO public.face (file_path, name) VALUES\n`;
+    const start = `DELETE FROM public.game_answer WHERE true;\nDELETE FROM public.game_session WHERE true;\nDELETE FROM public.face WHERE true;\nINSERT INTO public.face (file_path, name) VALUES\n`;
     const valueStrings = fileNames.map((f) => {
-        return `('${f}', '${faker.person.fullName().replaceAll("'", "''")}')`;
+        return `('${f}', '${getShortName()}')`;
     });
     return start.concat(valueStrings.join(",\n"));
 }
@@ -30,6 +39,6 @@ console.log("file Names", fileNames);
 const insertStatement = mapToInsertStatement(fileNames);
 
 fs.writeFileSync(
-    "supabase/migrations/20260217020939_insert_face_names.sql",
+    "supabase/migrations/20260225030505_insert_face_names_2.sql",
     insertStatement,
 );

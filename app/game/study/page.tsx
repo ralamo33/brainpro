@@ -4,7 +4,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { getNextFaceCount } from "../actions";
 import { isErr } from "@/lib/result/result";
 
-const MILLISECONDS_PER_FACE = 5000;
+const MILLISECONDS_PER_FACE = 10000;
 
 export default async function StudyPage() {
     const supabase = await createServerSupabase();
@@ -12,7 +12,9 @@ export default async function StudyPage() {
     const countResult = await getNextFaceCount();
     const count = isErr(countResult) ? 3 : countResult.data;
 
-    const { data: faces } = await supabase.rpc("get_unseen_random_faces", { count });
+    const { data: faces } = await supabase.rpc("get_unseen_random_faces", {
+        count,
+    });
 
     if (!faces || faces.length === 0) {
         return (
@@ -20,7 +22,8 @@ export default async function StudyPage() {
                 <Alert>
                     <AlertTitle>No new faces available</AlertTitle>
                     <AlertDescription>
-                        You've seen all available faces. Check back later for new additions.
+                        You've seen all available faces. Check back later for
+                        new additions.
                     </AlertDescription>
                 </Alert>
             </div>
@@ -34,7 +37,8 @@ export default async function StudyPage() {
                     <Alert>
                         <AlertTitle>Running low on new faces</AlertTitle>
                         <AlertDescription>
-                            Only {faces.length} unseen face{faces.length === 1 ? "" : "s"} remaining.
+                            Only {faces.length} unseen face
+                            {faces.length === 1 ? "" : "s"} remaining.
                         </AlertDescription>
                     </Alert>
                 </div>
