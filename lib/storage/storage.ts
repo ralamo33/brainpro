@@ -1,6 +1,6 @@
 "use server";
 
-import serviceAccount from "@/service-account.json";
+import serviceAccount from "@/service-account";
 import { Storage, Bucket, File } from "@google-cloud/storage";
 import { err, ok, Result } from "../result/result";
 

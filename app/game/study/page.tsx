@@ -4,7 +4,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { getNextFaceCount } from "../actions";
 import { isErr } from "@/lib/result/result";
 
-const MILLISECONDS_PER_FACE = 10000;
+const MILLISECONDS_PER_FACE = 20000;
 
 export default async function StudyPage() {
     const supabase = await createServerSupabase();

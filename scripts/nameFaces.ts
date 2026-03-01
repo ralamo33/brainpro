@@ -1,29 +1,30 @@
 import { Storage, Bucket, File } from "@google-cloud/storage";
-import { faker } from "@faker-js/faker";
-import serviceAccount from "@/service-account.json";
+import serviceAccount from "@/service-account";
 import fs from "fs";
+import { Faker, pl, cs_CZ, hu } from "@faker-js/faker";
+import anyAscii from "any-ascii";
 
 async function getFileNames() {
     const storage = new Storage({
-        projectId: "brainpro-487522",
+        projectId: process.env.GOOGLE_PROJECT_ID,
         credentials: serviceAccount,
     });
 
-    console.log("Getting buckets");
     const bucketResp = await storage.getBuckets();
     const bucket: Bucket = bucketResp[0][0];
-    console.log("Got bucket");
     const files: File[] = (await bucket.getFiles())[0];
     return files.map((f) => f.name);
 }
 
 function getShortName() {
-    let fullName = faker.person.firstName() + " " + faker.person.lastName();
-    while (fullName.split(" ").length !== 2 || fullName.includes("-")) {
-        console.log("anem was", fullName);
-        fullName = faker.person.firstName() + " " + faker.person.lastName();
+    const faker = new Faker({ locale: [pl, cs_CZ, hu] });
+
+    let name = faker.person.firstName() + " " + faker.person.lastName();
+    name = anyAscii(name);
+    while (name.split(" ").length !== 2 || name.includes("-")) {
+        name = faker.person.firstName() + " " + faker.person.lastName();
     }
-    return fullName.replaceAll("'", "''");
+    return name.replaceAll("'", "''");
 }
 
 function mapToInsertStatement(fileNames: string[]) {
@@ -39,6 +40,6 @@ console.log("file Names", fileNames);
 const insertStatement = mapToInsertStatement(fileNames);
 
 fs.writeFileSync(
-    "supabase/migrations/20260225030505_insert_face_names_2.sql",
+    "supabase/migrations/20260301002056_insert_face_names_3.sql",
     insertStatement,
 );
