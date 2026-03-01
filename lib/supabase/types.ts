@@ -38,20 +38,26 @@ export type Database = {
         Row: {
           created_at: string
           file_path: string
+          gender: Database["public"]["Enums"]["gender"]
           id: string
           name: string
+          race: Database["public"]["Enums"]["race"]
         }
         Insert: {
           created_at?: string
           file_path: string
+          gender: Database["public"]["Enums"]["gender"]
           id?: string
           name: string
+          race: Database["public"]["Enums"]["race"]
         }
         Update: {
           created_at?: string
           file_path?: string
+          gender?: Database["public"]["Enums"]["gender"]
           id?: string
           name?: string
+          race?: Database["public"]["Enums"]["race"]
         }
         Relationships: []
       }
@@ -121,6 +127,62 @@ export type Database = {
         }
         Relationships: []
       }
+      number_answer: {
+        Row: {
+          answer: string
+          created_at: string | null
+          id: string
+          number_session_id: string | null
+          user_id: string | null
+        }
+        Insert: {
+          answer: string
+          created_at?: string | null
+          id?: string
+          number_session_id?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          answer?: string
+          created_at?: string | null
+          id?: string
+          number_session_id?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "number_answer_number_session_id_fkey"
+            columns: ["number_session_id"]
+            isOneToOne: false
+            referencedRelation: "number_session"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      number_session: {
+        Row: {
+          completed_at: string | null
+          created_at: string
+          id: string
+          number: string
+          user_id: string
+        }
+        Insert: {
+          completed_at?: string | null
+          created_at?: string
+          id?: string
+          number: string
+          user_id: string
+        }
+        Update: {
+          completed_at?: string | null
+          created_at?: string
+          id?: string
+          number?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           full_name: string | null
@@ -152,8 +214,10 @@ export type Database = {
         Returns: {
           created_at: string
           file_path: string
+          gender: Database["public"]["Enums"]["gender"]
           id: string
           name: string
+          race: Database["public"]["Enums"]["race"]
         }[]
         SetofOptions: {
           from: "*"
@@ -167,8 +231,10 @@ export type Database = {
         Returns: {
           created_at: string
           file_path: string
+          gender: Database["public"]["Enums"]["gender"]
           id: string
           name: string
+          race: Database["public"]["Enums"]["race"]
         }[]
         SetofOptions: {
           from: "*"
@@ -189,7 +255,15 @@ export type Database = {
       }
     }
     Enums: {
-      [_ in never]: never
+      gender: "MALE" | "FEMALE"
+      race:
+        | "East Asian"
+        | "Indian"
+        | "Black"
+        | "White"
+        | "Middle Eastern"
+        | "Latino_Hispanic"
+        | "Southeast Asian"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -319,7 +393,18 @@ export const Constants = {
     Enums: {},
   },
   public: {
-    Enums: {},
+    Enums: {
+      gender: ["MALE", "FEMALE"],
+      race: [
+        "East Asian",
+        "Indian",
+        "Black",
+        "White",
+        "Middle Eastern",
+        "Latino_Hispanic",
+        "Southeast Asian",
+      ],
+    },
   },
 } as const
 
