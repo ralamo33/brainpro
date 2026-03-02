@@ -9,10 +9,13 @@ export default async function HomePage() {
 
     return (
         <div className="flex flex-col items-center gap-6 mt-16">
-            <h1 className="text-3xl font-bold">Welcome to Face Game!</h1>
+            <h1 className="text-3xl font-bold">Brain Training</h1>
             <div className="flex gap-3">
                 <Link href="/game/study">
-                    <Button>Start</Button>
+                    <Button>Face Game</Button>
+                </Link>
+                <Link href="/number">
+                    <Button>Number Game</Button>
                 </Link>
                 {isLoggedIn && (
                     <Link href="/analysis">
